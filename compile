@@ -1,18 +1,18 @@
-#!/bin/sh
+#!/bin/bash
 
 clear
 
 rm bin/compiled
 
-python3 preprocessor.py "bootloader.asm" src/long_mode_os/bootloader
+python3 preprocessor.py "bootloader.asm" src/bootloader
 
 cd bin
 
 nasm -f elf64 output.asm -o asm.ob
 
-nasm -f elf64 ./../src/long_mode_os/bootloader/shared_data.asm -o asm.o
+nasm -f elf64 ./../src/bootloader/shared_data.asm -o asm.o
 
-gcc -c -g -Wall -m64 ../src/long_mode_os/**/*.c -I ../src/long_mode_os/global_includes/ -I ../src/long_mode_os/kernel/ -I ../src/long_mode_os/kernel/memory/ -I ../src/long_mode_os/drivers/ -mcmodel=large -nostdlib -ffreestanding -mno-red-zone -fno-exceptions -nodefaultlibs -fno-builtin -fno-pic && touch compiled
+gcc -c -g -Wall -m64 ../src/**/*.c -I ../src/global_includes/ -I ../src/kernel/ -I ../src/kernel/memory/ -I ../src/drivers/ -mcmodel=large -nostdlib -ffreestanding -mno-red-zone -fno-exceptions -nodefaultlibs -fno-builtin -fno-pic && touch compiled
 
 ld -m elf_x86_64 -static -nostdlib -T ../bootloader_linker.ld asm.ob -o bootloader.img
 
