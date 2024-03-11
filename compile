@@ -16,12 +16,10 @@ gcc -c -g -Wall -m64 ../src/long_mode_os/**/*.c -I ../src/long_mode_os/global_in
 
 ld -m elf_x86_64 -static -nostdlib -T ../bootloader_linker.ld asm.ob -o bootloader.img
 
-ld -m elf_x86_64 -static -nostdlib -T ../kernel_linker.ld *.o -o kernel.img
-
-cat bootloader.img > boot.img
+ld -m elf_x86_64 -static -nostdlib -T ../kernel_linker.ld *.o -o kernel.img+
 
 truncate -s 1K bootloader.img
-
+asm/rwonce.h
 cat bootloader.img > os.img
 cat kernel.img >> os.img
 

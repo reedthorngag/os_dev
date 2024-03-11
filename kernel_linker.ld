@@ -1,7 +1,7 @@
 OUTPUT_FORMAT(binary)
 SECTIONS {
 
-    . = 0xffff80000000;
+    . = 0x10000;
 
     .data :
     {

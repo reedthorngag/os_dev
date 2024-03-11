@@ -40,6 +40,9 @@ void screen_init() {
     map_screen_buffer();
     screen_buffer_ptr = (word*)(long)virtual_scrn_buf_ptr;
     wipe_screen();
+    hcf();
+    draw_pixel(0,0,rgb(255,0,0));
+    hcf();
 }
 
 void wipe_screen() {

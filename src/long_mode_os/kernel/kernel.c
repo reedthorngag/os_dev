@@ -7,11 +7,9 @@
 
 volatile void kernel_start() {
 
-    int a = 0x7692; // 0x0410
+    int a = 0x7692; // 0x0410 
 
     screen_init(); // 0x2120
-
-    hcf();
 
     //paging_init();
 
