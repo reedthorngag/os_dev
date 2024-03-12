@@ -1,4 +1,3 @@
-#include <typedefs.h>
 #include "second_stage.h"
 
 u64* pml4_tmp = (u64*)0x1000;
@@ -10,7 +9,9 @@ extern u64 pml_space_end;
 extern u64 screen_res_x;
 extern u64 physical_kernel_start;
 
-void map() {
+void main() {
+
+    hcf();
 
     pml_space_addr = 0x80000;
     pml_space_ptr = (u64*)(&physical_kernel_start+pml_space_addr);

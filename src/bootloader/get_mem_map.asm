@@ -1,6 +1,5 @@
 
 get_mem_map:
-	db 0xff, 0xfe
     mov di, mem_map_buffer
 	xor ebx, ebx		; ebx must be 0 to start
 	xor bp, bp		; keep an entry count in bp
@@ -21,7 +20,6 @@ get_mem_map:
 	mov dword [es:di + 20], 1	; force a valid ACPI 3.X entry
 	mov ecx, 24		; ask for 24 bytes again
 	int 0x15
-	call print_hex
 	jc short .e820f		; carry set means "end of list already reached"
 	mov edx, 0x0534D4150	; repair potentially trashed register
 .jmpin:

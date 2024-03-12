@@ -7,8 +7,6 @@ SECTIONS {
         *(.boot)
     }
 
-    . = 0xa000;
-
     .data :
     {
         *(.kernel_data)

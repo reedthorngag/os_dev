@@ -13,10 +13,6 @@ start:
     mov [drive_number],dl
     mov si,disk_address_packet
     call read_lba_blocks
-    mov bx,VBE_controller_info
-    call print_hex
-    mov bx,VBE_mode_info
-    call print_hex
     call get_mem_map
     mov bx, [second_stage_start]
     call print_hex
@@ -211,7 +207,6 @@ GDT:
 
 
 get_mem_map:
-	db 0xff, 0xfe
     mov di, mem_map_buffer
 	xor ebx, ebx		; ebx must be 0 to start
 	xor bp, bp		; keep an entry count in bp
@@ -232,7 +227,6 @@ get_mem_map:
 	mov dword [es:di + 20], 1	; force a valid ACPI 3.X entry
 	mov ecx, 24		; ask for 24 bytes again
 	int 0x15
-	call print_hex
 	jc short .e820f		; carry set means "end of list already reached"
 	mov edx, 0x0534D4150	; repair potentially trashed register
 .jmpin:
@@ -345,7 +339,7 @@ VBE_controller_info:
     .extra_data: times 0x200-($-VBE_controller_info) db 0
 current_VBE_mode dw 0
 VBE_mode_info:
-    .attributes:        dw 0xfffe
+    .attributes:        dw 0
     .win_A_attributes   db 0
     .win_B_attributes   db 0
     .granularity        dw 0    ; KB

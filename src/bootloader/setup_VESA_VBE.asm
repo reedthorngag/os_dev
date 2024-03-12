@@ -100,7 +100,7 @@ VBE_controller_info:
 current_VBE_mode dw 0
 
 VBE_mode_info:
-    .attributes:        dw 0xfffe
+    .attributes:        dw 0
     .win_A_attributes   db 0
     .win_B_attributes   db 0
     .granularity        dw 0    ; KB
