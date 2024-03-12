@@ -20,7 +20,7 @@ SECTIONS {
     {
         *(.rodata)
         *(.resources)
-        font.o
+        font.o.d
     }
 
     .bss :

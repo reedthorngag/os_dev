@@ -11,22 +11,26 @@ start:
 			    ; (directly below bootloader)
 	sti
 
-	mov ax, 0x0000
+	xor ax,ax
 	mov ds, ax		; this should already be set, but better safe than sorry
 
     mov [drive_number],dl
 
-    mov si,disk_address_packet_2
-    call read_lba_blocks
-
     mov si,disk_address_packet
     call read_lba_blocks
 
-    mov ax,0x1000
-    mov es,ax
-    xor si,si
+    mov si,disk_address_packet2
+    call read_lba_blocks
 
-    mov bx,[es:si]
+    mov bx,VBE_controller_info
+    call print_hex
+
+    mov bx,[VBE_controller_info]
+    call print_hex
+
+    call get_mem_map
+
+    mov bx, [second_stage_start]
     call print_hex
     call pause
 
@@ -39,14 +43,13 @@ start:
 
     times 510-($-$$) db 0
     dw 0xaa55
-    dw 0xaa55
 bootloader_end:
 #include "drop_into_long_mode.asm"
 
-#include "setup_VESA_VBE.asm"
 #include "get_mem_map.asm"
 #include "read_acpi_tables.asm"
-
- times 0x1000-($-$$) db 0
+#include "setup_VESA_VBE.asm"
 
 #include "shared_data.asm"
+
+second_stage_start:

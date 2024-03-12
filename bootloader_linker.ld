@@ -12,5 +12,7 @@ SECTIONS {
     .data :
     {
         *(.kernel_data)
+        second_stage.o
     }
+
 }
