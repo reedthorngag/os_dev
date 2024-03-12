@@ -19,13 +19,10 @@ start:
     mov si,disk_address_packet
     call read_lba_blocks
 
-    mov si,disk_address_packet2
-    call read_lba_blocks
-
     mov bx,VBE_controller_info
     call print_hex
 
-    mov bx,[VBE_controller_info]
+    mov bx,VBE_mode_info
     call print_hex
 
     call get_mem_map

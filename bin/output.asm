@@ -13,11 +13,9 @@ start:
     mov [drive_number],dl
     mov si,disk_address_packet
     call read_lba_blocks
-    mov si,disk_address_packet2
-    call read_lba_blocks
     mov bx,VBE_controller_info
     call print_hex
-    mov bx,[VBE_controller_info]
+    mov bx,VBE_mode_info
     call print_hex
     call get_mem_map
     mov bx, [second_stage_start]
@@ -95,7 +93,6 @@ read_lba_blocks:
 	jc .failed
 	ret
 .failed:
-	mov al,[disk_address_packet2.number_of_blocks]
 	mov bx,ax
 	call print_hex
 	call hang
@@ -106,23 +103,11 @@ disk_address_packet:
 .number_of_blocks:
 	dw 0x80
 .transfer_buffer_offset:
-	dw 0x7e00
-.transfer_buffer_segment:
-	dw 0x0000
-.LBA_address:
-	dw 1
-	dq 0
-disk_address_packet2:
-	db 0x10
-	db 0x00
-.number_of_blocks:
-	dw 0x80
-.transfer_buffer_offset:
 	dw 0x0000
 .transfer_buffer_segment:
-	dw 0x // 0x80*0x20
+	dw 0x07e0
 .LBA_address:
-	dd 0x0080
+	dq 1
 	dq 0
 
     times 510-($-$$) db 0
