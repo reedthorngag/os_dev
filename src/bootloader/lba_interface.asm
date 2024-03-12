@@ -39,7 +39,7 @@ disk_address_packet2:
 .transfer_buffer_offset:
 	dw 0x0000
 .transfer_buffer_segment:
-	dw 0x // 0x80*0x20
+	dw 0x1000 // 0x80*0x20
 .LBA_address:
 	dd 0x0080
 	dq 0
