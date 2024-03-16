@@ -1,4 +1,5 @@
 #include "second_stage.h"
+#include <ahci.h>
 
 u64* pml4_tmp = (u64*)0x1000;
 u64 pml_space_addr;
@@ -36,6 +37,7 @@ void main() {
 
 #include <convertions.c>
 #include <debugging.c>
+#include <ahci.c>
 
 void* alloc_page() {
     pml_space_addr -= 0x1000;
