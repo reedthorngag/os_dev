@@ -180,7 +180,5 @@ u8* read_sync(u32 position, u32 blocks);
 
 i32 write_sync(u8* data, u32 size);
 
-u16 pci_read_config_word(u8 bus, u8 num, u8 func, u8 offset);
-
 
 #endif

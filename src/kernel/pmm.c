@@ -258,10 +258,10 @@ void print_kmalloc_allocated_table() {
     debug("kmalloc table:\n");
     for (u32 i=0;i<kmalloc_table_size;i++) {
         if (!kmalloc_table[i]) {
-            debug_binary(0);
+            debug_u8(0);
             return;
         }
-        debug_binary(kmalloc_table[i]);
+        debug_u8(kmalloc_table[i]);
     }
 }
 

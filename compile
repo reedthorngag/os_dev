@@ -16,6 +16,8 @@ nasm -f elf64 output.asm -o asm.ob || rm compiled
 
 nasm -f elf64 ./../src/bootloader/shared_data.asm -o asm.o || rm compiled
 
+nasm -f elf64 ./../src/kernel/idt.asm -o idt_asm.o || rm compiled
+
 gcc -c -g -Wall -m64 \
     ../src/kernel/*.c \
     ../src/util/*.c \
@@ -30,14 +32,17 @@ gcc -c -g -Wall -m64 \
 ld -m elf_x86_64 -static -nostdlib -T ../kernel_linker.ld *.o *.o.d -o kernel.img || rm compiled
 rm *.o
 
+nasm -f elf64 ./../src/kernel/idt.asm -o idt_asm.o || rm compiled
+
 gcc -c -g -Wall -m64 \
     ../src/bootloader/*.c \
     -I ../src/global_includes/ \
     -I ../src/util/ \
     -I ../src/drivers/ \
+    -I ../src/kernel/ \
     -mcmodel=large -nostdlib -ffreestanding -mno-red-zone -fno-exceptions -nodefaultlibs -fno-builtin -fno-pic || rm compiled
 
-ld -m elf_x86_64 -static -nostdlib -T ../bootloader_linker.ld asm.ob second_stage.o -o bootloader.img || rm compiled
+ld -m elf_x86_64 -static -nostdlib -T ../bootloader_linker.ld asm.ob *.o -o bootloader.img || rm compiled
 
 if [ ! -e compiled ]
 then

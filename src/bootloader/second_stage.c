@@ -1,5 +1,7 @@
 #include "second_stage.h"
+#include <debugging.h>
 #include <ahci.h>
+#include <idt.h>
 
 u64* pml4_tmp = (u64*)0x1000;
 u64 pml_space_addr;
@@ -10,7 +12,18 @@ extern u64 pml_space_end;
 extern u64 screen_res_x;
 extern u64 physical_kernel_start;
 
-void main() {
+__attribute__((noreturn))
+volatile void main() {
+
+    init_idt();
+
+    // if (((idt_entry_t*)idtr.base)[3].kernel_cs==0x08) {
+    //     hcf();
+    // }
+    debug_u16(5);
+    debug(((idt_entry_t*)idtr.base)[0].isr_low);
+
+    while (true) __asm__ volatile ("hlt");
 
     hcf();
 
@@ -38,6 +51,7 @@ void main() {
 #include <convertions.c>
 #include <debugging.c>
 #include <ahci.c>
+#include <idt.c>
 
 void* alloc_page() {
     pml_space_addr -= 0x1000;

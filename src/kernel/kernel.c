@@ -5,6 +5,7 @@
 #include <convertions.h>
 #include <vmm.h>
 
+__attribute__((noreturn))
 volatile void kernel_start() {
 
     vmm_init();
@@ -14,8 +15,6 @@ volatile void kernel_start() {
     write_string(0,0,"Hello World!",RGB(255,255,255),RGB(0,0,0));
 
     hcf();
-    
-    return;
 }
  
 
