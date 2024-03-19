@@ -17,7 +17,11 @@ volatile void main() {
 
     init_idt();
 
-    while (true) __asm__ volatile ("hlt");
+    debug("here");
+    
+    while (true) ;
+
+    debug("wtf");
 
     hcf();
 

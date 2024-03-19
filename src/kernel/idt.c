@@ -30,12 +30,12 @@ volatile void keyboard_handler() {
 }
 
 void init_idt() {
-    debug("hello");
-    idtr.base = 0;//(u64)idt;
+    idtr.base = (u64)idt;
     idtr.limit = sizeof(idt_entry_t)*256-1;
 
-    for (u8 i = 0; i < 256; i++) {
-        idt_install_irq(i,(u64)0,0x8E);
+    for (u16 i = 0; i < 256; i++) {
+        idt_install_irq((u8)i,(u64)isr_stub_table[i],0x8E);
+        debug(i);
     }
 
     __asm__ volatile ("cli");
