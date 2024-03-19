@@ -1,23 +1,20 @@
 [BITS 64]
 
 extern default_handler
+extern keyboard_handler
 extern irq_handler
 
 %macro isr_stub 1
 isr_stub_%+%1:
-    cli
-    hlt
-    jmp isr_stub_%+%1
-    call default_handler
-    iretq
+    ;mov rsi,%+%1
+    call keyboard_handler
+    ;iretq
 %endmacro
 
 global isr_stub_0
 isr_stub_0:
-    cli
-    hlt
-    jmp isr_stub_0
-    iretq
+    call keyboard_handler
+    ;iretq
 
 isr_stub 1
 isr_stub 2

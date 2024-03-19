@@ -18,10 +18,10 @@
 
 #define outb(port,value) asm volatile ("outb %0,%1" :: "a"((u8)(value)),"Nd"((u16)(port)))
 
-#define inb(port,out) asm volatile ("inb %0,%1" : "=r" (out) :"Nd"((u16)(port)))
+#define inb(port,out) asm volatile ("inb %%dx,%%al" : "=a" (out) :"Nd"((u16)(port)))
 
-#define _debug_str(str) for (u32 n=0,c;(c=((char*)str)[n++]);) outb(0xe9,c);
+#define _debug_str(str) for (u32 n = 0;str[n];) outb(0xe9,str[n++])
 
-#define hcf() _debug_str("\nKernel halted!\n"); asm volatile ("cli"); while (true) asm volatile ("hlt")
+#define hcf() asm volatile ("cli"); while (true) asm volatile ("hlt")
 
 #endif

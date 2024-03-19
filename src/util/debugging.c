@@ -47,6 +47,5 @@ void debug_u64(u64 out) {
 }
 
 void debug_str(char str[]) {
-    for (u32 n=0,c=' ';(c=str[n++]);)
-        outb(0xe9,c);
+    for (;*str;) outb(0xe9,*str++);
 }

@@ -7,7 +7,7 @@ then
         -device ahci,id=ahci \
         -device ide-hd,drive=disk,bus=ahci.0\
         -drive file=bin/os.img,format=raw \
-        -drive file=bin/disk.img,id=disk,if=none,format=raw \
+        -drive file=bin/disk.drive,id=disk,if=none,format=raw \
         -m 4G \
         -debugcon file:/dev/stdout -monitor stdio \
         -D bin/qemu_log.txt -d int \

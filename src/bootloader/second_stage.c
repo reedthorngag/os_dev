@@ -17,12 +17,6 @@ volatile void main() {
 
     init_idt();
 
-    // if (((idt_entry_t*)idtr.base)[3].kernel_cs==0x08) {
-    //     hcf();
-    // }
-    debug_u16(5);
-    debug(((idt_entry_t*)idtr.base)[0].isr_low);
-
     while (true) __asm__ volatile ("hlt");
 
     hcf();
