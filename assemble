@@ -1,0 +1,11 @@
+#!/bin/bash
+
+find "$1" 2>/dev/null 1>&2 || { rm assemble_output.asm >/dev/null 2>&1 ; exit 0; }
+
+gcc -S  $1 \
+    -I src/global_includes/ \
+    -I src/util/ \
+    -I src/kernel/ \
+    -I src/kernel/memory/ \
+    -I src/drivers/ \
+    -mcmodel=large -nostdlib -ffreestanding -mno-red-zone -fno-exceptions -nodefaultlibs -fno-builtin -fno-pic -o assemble_output.asm

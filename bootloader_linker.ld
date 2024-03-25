@@ -13,4 +13,6 @@ SECTIONS {
         second_stage.o
     }
 
+    bootloader_end = .;
+
 }

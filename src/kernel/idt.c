@@ -17,8 +17,8 @@ void idt_install_irq(u8 index, u64 irq_addr, u16 flags) {
 
 idtr_t idtr;
 
-volatile void default_handler(u64 irq) {
-    (void)irq;
+volatile void default_handler() {
+    debug("hi");
     //debug(irq);
 }
 
@@ -29,16 +29,33 @@ volatile void keyboard_handler() {
     debug_str("hello\n");
 }
 
+void remap_pic() {
+    outb(0x20,0x11); // write ICW1 to PIC master
+    outb(0xA0,0x11); // write ICW1 to PIC slave
+
+    outb(0x21,0x20); // remap PIC master to 0x20
+    outb(0xA1,0x28); // remap PIC slave to 0x28
+
+    outb(0x21,0x04); // IRQ2 -> connection to slave
+    outb(0xA1,0x02);
+
+    outb(0x21,0x01); // write ICW4 to PIC master
+    outb(0xA1,0x01);
+
+    outb(0x21, 0x0); // enable all IRQs
+    outb(0xA1, 0x0);
+}
+
 void init_idt() {
     idtr.base = (u64)idt;
     idtr.limit = sizeof(idt_entry_t)*256-1;
 
     for (u16 i = 0; i < 256; i++) {
         idt_install_irq((u8)i,(u64)isr_stub_table[i],0x8E);
-        debug(i);
     }
 
     __asm__ volatile ("cli");
+    remap_pic();
     __asm__ volatile ("lidt %0"::"m"(idtr));
     __asm__ volatile ("sti");
 }

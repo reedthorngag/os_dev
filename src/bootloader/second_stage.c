@@ -11,14 +11,15 @@ extern u64 pml_space_start;
 extern u64 pml_space_end;
 extern u64 screen_res_x;
 extern u64 physical_kernel_start;
+extern u64 bootloader_end;
 
 __attribute__((noreturn))
 volatile void main() {
 
-    init_idt();
+    debug((u64)&bootloader_end);
 
-    debug("here");
-    
+    //init_idt();
+
     while (true) ;
 
     debug("wtf");
